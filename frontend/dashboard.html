@@ -1,11 +1,208 @@
-const API_URL = "https://SEU-BACKEND-AQUI.com";
-const token = localStorage.getItem('token');
-if (!token) window.location.href = "index.html";
+<script>
+  // 👇 QUANDO a API estiver no Render, você troca aqui:
+  // ex.: const API_URL = "https://datainsightpsypro-api.onrender.com";
+  const API_URL = "https://SEU-BACKEND-AQUI.com";
 
-async function loadCampaigns() {
-  const res = await fetch(`${API_URL}/api/campaigns`, {
-    headers: { Authorization: `Bearer ${token}` }
+  // Recupera token salvo no login
+  const token = localStorage.getItem('token');
+
+  // Se não estiver logado, volta pro login
+  if (!token) {
+    window.location.href = "index.html";
+  }
+
+  // Mostra nome do usuário (se quiser, lá na navbar)
+  document.addEventListener("DOMContentLoaded", () => {
+    const userName = localStorage.getItem('user_name') || "Usuário";
+    const badge = document.getElementById("userBadge");
+    if (badge) {
+      badge.textContent = userName;
+    }
+    loadCampaigns();
   });
-  const campaigns = await res.json();
-  // monta lista no HTML…
-}
+
+  // Botão de sair
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_name');
+    window.location.href = "index.html";
+  }
+
+  // Carrega lista de campanhas na página
+  async function loadCampaigns() {
+    try {
+      const res = await fetch(`${API_URL}/api/campaigns`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        alert("Não foi possível carregar as campanhas. Verifique suas credenciais.");
+        return;
+      }
+
+      const campaigns = await res.json();
+      const select = document.getElementById("campaignSelect");
+
+      if (!select) return;
+
+      select.innerHTML = "";
+
+      campaigns.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = `${c.company_name} — ${c.title}`;
+        select.appendChild(opt);
+      });
+
+      // Se tiver pelo menos uma campanha, já carrega o resumo da primeira
+      if (campaigns.length > 0) {
+        loadSummary(campaigns[0].id);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erro de conexão com o servidor. Verifique a API_URL.");
+    }
+  }
+
+  // Quando mudar a campanha no select, recarrega o resumo
+  async function onCampaignChange() {
+    const select = document.getElementById("campaignSelect");
+    if (!select || !select.value) return;
+    await loadSummary(select.value);
+  }
+
+  // Carrega o resumo (médias) de uma campanha e atualiza gráfico + plano de ação
+  async function loadSummary(campaignId) {
+    try {
+      const res = await fetch(`${API_URL}/api/campaigns/${campaignId}/summary`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        alert("Erro ao carregar resumo da campanha.");
+        return;
+      }
+
+      const data = await res.json();
+
+      // data.averages = { "Demandas": 3.5, "Controle": 3.2, ... }
+
+      const labels = Object.keys(data.averages);
+      const values = Object.values(data.averages);
+
+      // Atualiza gráfico Radar (Chart.js)
+      renderRadarChart(labels, values);
+
+      // Atualiza lista de ações (se quiser, você monta aqui com base nas médias)
+      renderActionPlan(labels, values);
+    } catch (err) {
+      console.error(err);
+      alert("Erro de conexão ao buscar resumo.");
+    }
+  }
+
+  // Exemplo de função pra desenhar o gráfico
+  let radarChart = null;
+  function renderRadarChart(labels, values) {
+    const ctx = document.getElementById('radar');
+    if (!ctx) return;
+
+    if (radarChart) {
+      radarChart.destroy();
+    }
+
+    radarChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Média (1-5)',
+          data: values,
+          fill: true
+        }]
+      },
+      options: {
+        scales: {
+          r: {
+            suggestedMin: 1,
+            suggestedMax: 5
+          }
+        }
+      }
+    });
+  }
+
+  // Exemplo simples de plano de ação (você pode sofisticar depois)
+  function renderActionPlan(labels, values) {
+    const container = document.getElementById("actions");
+    if (!container) return;
+
+    if (!labels.length) {
+      container.innerHTML = "<p class='small'>Sem dados ainda para esta campanha.</p>";
+      return;
+    }
+
+    let html = "";
+    labels.forEach((dim, i) => {
+      const score = values[i];
+      let prioridade = "Manter";
+      if (score < 3) prioridade = "Atenção";
+      else if (score < 3.5) prioridade = "Médio";
+
+      html += `
+        <div class="card action-card">
+          <span class="badge">${prioridade}</span>
+          <b>${dim}</b><br>
+          <span class="small">
+            ${prioridade === "Manter" 
+              ? "Manter boas práticas e monitorar com reavaliações periódicas."
+              : "Definir plano de intervenção e metas de melhoria para esta dimensão."
+            }
+          </span>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  }
+
+  // Exportar CSV da campanha selecionada
+  async function exportCsv() {
+    const select = document.getElementById("campaignSelect");
+    if (!select || !select.value) {
+      alert("Selecione uma campanha primeiro.");
+      return;
+    }
+
+    const campaignId = select.value;
+
+    try {
+      const res = await fetch(`${API_URL}/api/campaigns/${campaignId}/export-csv`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        alert("Erro ao exportar CSV.");
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `campanha_${campaignId}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Erro de conexão ao exportar CSV.");
+    }
+  }
+
+  // Exportar PDF (basicamente imprimir a tela formatada)
+  function exportPdf() {
+    window.print();
+  }
+</script>
+
+
