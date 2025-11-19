@@ -1,0 +1,11 @@
+const API_URL = "https://SEU-BACKEND-AQUI.com";
+const token = localStorage.getItem('token');
+if (!token) window.location.href = "index.html";
+
+async function loadCampaigns() {
+  const res = await fetch(`${API_URL}/api/campaigns`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const campaigns = await res.json();
+  // monta lista no HTML…
+}

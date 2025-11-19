@@ -1,0 +1,26 @@
+const API_URL = "https://SEU-BACKEND-AQUI.com"; // depois você aponta para o deploy
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
+
+  const res = await fetch(`${API_URL}/api/login`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!res.ok) {
+    alert("Login inválido.");
+    return;
+  }
+
+  const data = await res.json();
+  localStorage.setItem('token', data.access_token);
+  localStorage.setItem('user_name', data.user.name);
+  window.location.href = "dashboard.html";
+});
