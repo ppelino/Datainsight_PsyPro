@@ -208,5 +208,12 @@ def submit_survey(payload: schemas.PublicSurveyIn, db: Session = Depends(get_db)
     db.commit()
     return {"ok": True}
 
+# === LINK PÚBLICO =============================================
+
+@app.get("/api/public/surveys/{campaign_id}/link")
+def public_link(campaign_id: int):
+    frontend_url = "https://datainsightpsypro.netlify.app"
+    link = f"{frontend_url}/public_survey.html?c={campaign_id}"
+    return {"url": link}
 
 
