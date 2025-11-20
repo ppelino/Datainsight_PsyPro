@@ -52,9 +52,8 @@
 
   <!-- JAVASCRIPT -->
   <script>
-    // URL da API (depois vamos trocar pelo endereço do backend no Render)
+    // URL da API em produção (Render)
     const API_URL = "https://datainsight-psypro.onrender.com";
-
 
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -67,33 +66,42 @@
         return;
       }
 
-      const formData = new FormData();
-      formData.append('username', username);
-      formData.append('password', password);
+      // envia igual ao Swagger: application/x-www-form-urlencoded
+      const body = new URLSearchParams();
+      body.append('username', username);
+      body.append('password', password);
+      body.append('grant_type', 'password');
 
       try {
         const res = await fetch(`${API_URL}/api/login`, {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body
         });
 
         if (!res.ok) {
-          alert("Login inválido.");
+          alert("Login inválido. Verifique e-mail e senha.");
           return;
         }
 
         const data = await res.json();
+        // guarda token e nome
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('user_name', data.user.name);
+
+        // vai para o dashboard
         window.location.href = "dashboard.html";
       } catch (err) {
         console.error(err);
-        alert("Não foi possível conectar ao servidor. Verifique a API_URL.");
+        alert("Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
       }
     });
   </script>
 
 </body>
 </html>
+
 
 
