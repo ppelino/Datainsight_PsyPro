@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Avaliação Psicossocial — Responder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <h2>Avaliação Psicossocial (NR-01)</h2>
+
+  <form id="form">
+    <label>Demandas — Nota 1 a 5
+      <input type="number" min="1" max="5" id="demandas">
+    </label><br><br>
+
+    <label>Controle — Nota 1 a 5
+      <input type="number" min="1" max="5" id="controle">
+    </label><br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    const API = "https://datainsight-psypro.onrender.com";
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const campaignId = parseInt(urlParams.get("c"));
+
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        campaign_id: campaignId,
+        answers: [
+          { dimension: "Demandas", score: parseInt(document.getElementById("demandas").value) },
+          { dimension: "Controle", score: parseInt(document.getElementById("controle").value) }
+        ]
+      };
+
+      const res = await fetch(API + "/api/public/surveys/submit", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) alert("Resposta enviada!");
+      else alert("Erro ao enviar.");
+    });
+  </script>
+</body>
+</html>
