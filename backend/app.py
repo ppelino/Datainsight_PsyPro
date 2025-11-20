@@ -1,16 +1,16 @@
 from collections import defaultdict
-
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from .database import SessionLocal
+from .database import SessionLocal, init_db   # <- aqui
 from . import models, schemas, security
 
-# Se estivesse usando SQLite local, poderia precisar disso:
-# from .database import Base, engine
-# Base.metadata.create_all(bind=engine)
+
+# cria as tabelas ao subir a API
+init_db()   # <- adiciona essa linha ANTES de usar o banco
+
 
 app = FastAPI(title="Datainsight AVALIA NR01 PRO")
 
@@ -180,5 +180,6 @@ def campaign_summary(
         campaign=schemas.CampaignOut.from_orm(camp),
         averages=averages,
     )
+
 
 
