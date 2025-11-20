@@ -208,12 +208,34 @@ def submit_survey(payload: schemas.PublicSurveyIn, db: Session = Depends(get_db)
     db.commit()
     return {"ok": True}
 
-# === LINK PÚBLICO =============================================
+# ==== LINK PÚBLICO DA CAMPANHA ============================================
 
 @app.get("/api/public/surveys/{campaign_id}/link")
-def public_link(campaign_id: int):
-    frontend_url = "https://datainsightpsypro.netlify.app"
-    link = f"{frontend_url}/public_survey.html?c={campaign_id}"
-    return {"url": link}
+def get_public_link(campaign_id: int):
+    """
+    Retorna o link público da campanha para responder o formulário.
+    """
+    # Verifica se a campanha existe
+    from fastapi import HTTPException
+    from .database import engine
+    from sqlalchemy.orm import Session
+    from .models import Campaign
+
+    db = SessionLocal()
+
+    camp = db.query(models.Campaign).filter(models.Campaign.id == campaign_id).first()
+    if not camp:
+        db.close()
+        raise HTTPException(status_code=404, detail="Campanha não encontrada")
+
+    db.close()
+
+    # URL fixa do seu site Netlify onde está o formulário
+    FRONT_URL = "https://datainsightpsypro.netlify.app"
+
+    return {
+        "url": f"{FRONT_URL}/survey.html?campaign_id={campaign_id}"
+    }
+
 
 
