@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>AVALIA NR01 PRO — Questionário</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="assets/branding-V2.css">
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="wrap">
+      <div class="logo">
+        <img src="assets/datainsight.png" alt="Datainsight SST Consulting">
+        <span>DATASINSIGHT PSYPRO</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card" style="margin-top:24px; max-width:800px;">
+      <h2>Questionário Psicossocial — NR 01</h2>
+      <p class="card-subtitle">
+        Este questionário é anônimo. Responda pensando na sua realidade de trabalho.
+      </p>
+
+      <div id="info" class="small" style="margin-bottom:10px;"></div>
+
+      <form id="surveyForm">
+        <!-- As perguntas são em escalas de 1 a 5 -->
+        <p><b>Como você avalia, em geral...</b></p>
+
+        <div class="question">
+          <p><b>1. Demandas (carga de trabalho, tempo, pressão)</b></p>
+          <p class="small">Sinto que as demandas de trabalho são adequadas ao tempo e recursos disponíveis.</p>
+          <div class="scale">
+            <label><input type="radio" name="Demandas" value="1"> 1</label>
+            <label><input type="radio" name="Demandas" value="2"> 2</label>
+            <label><input type="radio" name="Demandas" value="3"> 3</label>
+            <label><input type="radio" name="Demandas" value="4"> 4</label>
+            <label><input type="radio" name="Demandas" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p><b>2. Controle (autonomia e poder de decisão)</b></p>
+          <p class="small">Tenho autonomia suficiente para organizar meu trabalho e tomar decisões sobre como executá-lo.</p>
+          <div class="scale">
+            <label><input type="radio" name="Controle" value="1"> 1</label>
+            <label><input type="radio" name="Controle" value="2"> 2</label>
+            <label><input type="radio" name="Controle" value="3"> 3</label>
+            <label><input type="radio" name="Controle" value="4"> 4</label>
+            <label><input type="radio" name="Controle" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p><b>3. Apoio (chefia e colegas)</b></p>
+          <p class="small">Sinto que recebo apoio adequado da chefia e de colegas quando tenho dificuldades.</p>
+          <div class="scale">
+            <label><input type="radio" name="Apoio" value="1"> 1</label>
+            <label><input type="radio" name="Apoio" value="2"> 2</label>
+            <label><input type="radio" name="Apoio" value="3"> 3</label>
+            <label><input type="radio" name="Apoio" value="4"> 4</label>
+            <label><input type="radio" name="Apoio" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p><b>4. Relações (conflitos, respeito, clima)</b></p>
+          <p class="small">O clima entre colegas e gestores é respeitoso e sem conflitos excessivos.</p>
+          <div class="scale">
+            <label><input type="radio" name="Relações" value="1"> 1</label>
+            <label><input type="radio" name="Relações" value="2"> 2</label>
+            <label><input type="radio" name="Relações" value="3"> 3</label>
+            <label><input type="radio" name="Relações" value="4"> 4</label>
+            <label><input type="radio" name="Relações" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p><b>5. Ambiente físico</b></p>
+          <p class="small">As condições físicas (ruído, temperatura, ergonomia, iluminação) são adequadas.</p>
+          <div class="scale">
+            <label><input type="radio" name="Ambiente físico" value="1"> 1</label>
+            <label><input type="radio" name="Ambiente físico" value="2"> 2</label>
+            <label><input type="radio" name="Ambiente físico" value="3"> 3</label>
+            <label><input type="radio" name="Ambiente físico" value="4"> 4</label>
+            <label><input type="radio" name="Ambiente físico" value="5"> 5</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn primary" style="margin-top:16px;">Enviar respostas</button>
+      </form>
+
+      <div id="message" style="margin-top:16px;"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2025 DATASINSIGHT PSYPRO — Questionário Psicossocial
+  </div>
+
+  <script>
+    const API_URL = "https://datainsight-psypro.onrender.com";
+
+    // pega campaign_id da URL: ?campaign_id=1
+    function getCampaignIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("campaign_id");
+    }
+
+    const campaignId = getCampaignIdFromUrl();
+
+    const infoDiv = document.getElementById("info");
+    const form = document.getElementById("surveyForm");
+    const msgDiv = document.getElementById("message");
+
+    if (!campaignId) {
+      infoDiv.textContent = "Campanha não informada. Verifique o link enviado.";
+      form.style.display = "none";
+    } else {
+      infoDiv.textContent = "Campanha ID: " + campaignId + " — suas respostas são anônimas.";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!campaignId) return;
+
+      // lista das dimensões que usamos nas perguntas
+      const dimensions = [
+        "Demandas",
+        "Controle",
+        "Apoio",
+        "Relações",
+        "Ambiente físico"
+      ];
+
+      const answers = [];
+
+      for (const dim of dimensions) {
+        const selected = document.querySelector(`input[name="${dim}"]:checked`);
+        if (!selected) {
+          alert(`Por favor, responda a questão sobre: ${dim}.`);
+          return;
+        }
+        answers.push({
+          dimension: dim,
+          score: parseInt(selected.value, 10)
+        });
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/public/surveys/submit`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            campaign_id: parseInt(campaignId, 10),
+            answers: answers
+          })
+        });
+
+        if (!res.ok) {
+          msgDiv.innerHTML = "<p class='small'>Erro ao enviar suas respostas. Tente novamente mais tarde.</p>";
+          return;
+        }
+
+        msgDiv.innerHTML = "<p class='small'><b>Obrigado!</b> Suas respostas foram registradas com sucesso.</p>";
+        form.reset();
+        form.style.display = "none";
+      } catch (err) {
+        console.error(err);
+        msgDiv.innerHTML = "<p class='small'>Erro de conexão ao enviar respostas.</p>";
+      }
+    });
+  </script>
+</body>
+</html>
