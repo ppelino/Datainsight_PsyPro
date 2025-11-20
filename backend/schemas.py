@@ -1,13 +1,12 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List, Optional
 
-from pydantic import BaseModel
-from typing import List, Optional   # <-- ADICIONA List aqui
-
+from pydantic import BaseModel, ConfigDict
 
 
-# ==== USER ====
-
+# =======================
+# USER
+# =======================
 
 class UserOut(BaseModel):
     id: int
@@ -16,27 +15,26 @@ class UserOut(BaseModel):
     role: str
     created_at: datetime
 
-    # Pydantic v2: habilita .from_orm() / from_attributes
     model_config = ConfigDict(from_attributes=True)
 
 
-# ==== CAMPANHAS ====
-
+# =======================
+# CAMPANHAS
+# =======================
 
 class CampaignCreate(BaseModel):
     company_name: str
     title: str
-    description: str | None = None
+    description: Optional[str] = None
 
 
 class CampaignOut(BaseModel):
     id: int
     company_name: str
     title: str
-    description: str | None = None
+    description: Optional[str] = None
     created_at: datetime
 
-    # Também vem direto do SQLAlchemy -> .from_orm()
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -45,11 +43,13 @@ class SummaryOut(BaseModel):
     averages: Dict[str, float]
 
 
-# ...
+# =======================
+# SURVEY PÚBLICO
+# =======================
 
 class AnswerIn(BaseModel):
-    dimension: str   # nome da dimensão (ex.: "Demandas", "Controle"...)
-    score: int       # valor 1 a 5
+    dimension: str     # Ex.: "Demandas"
+    score: int         # 1 a 5
 
 
 class PublicSurveyIn(BaseModel):
