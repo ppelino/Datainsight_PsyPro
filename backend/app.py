@@ -236,6 +236,27 @@ def get_public_link(campaign_id: int):
     return {
         "url": f"{FRONT_URL}/survey.html?campaign_id={campaign_id}"
     }
+# ==== GERENCIAR CAMPANHAS (DELETE) ========================================
+
+@app.delete("/api/campaigns/{campaign_id}", status_code=204)
+def delete_campaign(
+    campaign_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    """
+    Remove uma campanha e todas as respostas associadas.
+    """
+    camp = db.query(models.Campaign).filter(models.Campaign.id == campaign_id).first()
+    if not camp:
+        raise HTTPException(status_code=404, detail="Campanha não encontrada")
+
+    # Apaga respostas primeiro (por segurança, caso não tenha cascade)
+    db.query(models.Response).filter(models.Response.campaign_id == campaign_id).delete()
+
+    # Depois apaga a campanha
+    db.delete(camp)
+    db.commit()
 
 
 
