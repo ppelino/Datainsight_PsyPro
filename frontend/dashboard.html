@@ -45,6 +45,9 @@
         <option value="">Carregando campanhas...</option>
       </select>
 
+      <!-- 🔹 Aqui aparece o link público da campanha -->
+      <div id="publicLink" class="small" style="margin-top:8px;"></div>
+
       <h3 style="margin-top:20px;">Gráfico Radar (Médias por dimensão)</h3>
       <canvas id="radar" width="400" height="400"></canvas>
     </div>
@@ -117,14 +120,7 @@
       }
 
       // Carrega campanhas ao abrir
-      loadCampaigns(async function showPublicLink(id) {
-  const res = await fetch(`${API_URL}/api/public/surveys/${id}/link`);
-  const data = await res.json();
-  document.getElementById("publicLink").innerHTML = `
-    <a href="${data.url}" target="_blank">${data.url}</a>
-  `;
-}
-);
+      loadCampaigns();
     });
 
     // Botão de sair
@@ -138,6 +134,30 @@
     function setStatus(msg) {
       const el = document.getElementById("status");
       if (el) el.textContent = msg;
+    }
+
+    // 🔹 Mostra o link público da campanha selecionada
+    async function showPublicLink(campaignId) {
+      const el = document.getElementById("publicLink");
+      if (!el) return;
+
+      if (!campaignId) {
+        el.textContent = "";
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/public/surveys/${campaignId}/link`);
+        if (!res.ok) {
+          el.textContent = "Não foi possível gerar o link público.";
+          return;
+        }
+        const data = await res.json();
+        el.innerHTML = `Link público: <a href="${data.url}" target="_blank">${data.url}</a>`;
+      } catch (err) {
+        console.error(err);
+        el.textContent = "Erro ao carregar link público.";
+      }
     }
 
     // 1) Carregar lista de campanhas
@@ -170,7 +190,10 @@
 
           document.getElementById("actions").innerHTML =
             "<p class='small'>Cadastre uma campanha no formulário abaixo para começar.</p>";
+
+          // limpa radar e link público
           renderRadarChart([], []);
+          showPublicLink(null);
           return;
         }
 
@@ -184,7 +207,9 @@
         });
 
         // Carrega a primeira campanha automaticamente
-        loadSummary(campaigns[0].id);
+        const firstId = campaigns[0].id;
+        loadSummary(firstId);
+        showPublicLink(firstId);
       } catch (err) {
         console.error(err);
         setStatus("Erro de conexão com o servidor. Verifique a API_URL.");
@@ -194,8 +219,12 @@
     // 2) Quando trocar a campanha no select
     async function onCampaignChange() {
       const select = document.getElementById("campaignSelect");
-      if (!select || !select.value) return;
+      if (!select || !select.value) {
+        showPublicLink(null);
+        return;
+      }
       await loadSummary(select.value);
+      showPublicLink(select.value);
     }
 
     // 3) Carregar resumo de uma campanha
@@ -258,7 +287,7 @@
       }
 
       if (labels.length === 0) {
-        // Se não há dados, limpa o canvas destruindo o gráfico e não recria
+        // Se não há dados, apenas limpa (não recria gráfico vazio)
         return;
       }
 
@@ -363,4 +392,6 @@
   </script>
 </body>
 </html>
+
+
 
