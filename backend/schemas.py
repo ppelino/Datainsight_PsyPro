@@ -1,21 +1,24 @@
-from pydantic import BaseModel, EmailStr
-from typing import List, Dict
 from datetime import datetime
+from typing import Dict
+
+from pydantic import BaseModel, ConfigDict
 
 
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
+# ==== USER ====
 
 
 class UserOut(BaseModel):
     id: int
     name: str
-    email: EmailStr
+    email: str
     role: str
+    created_at: datetime
 
-    class Config:
-        orm_mode = True
+    # Pydantic v2: habilita .from_orm() / from_attributes
+    model_config = ConfigDict(from_attributes=True)
+
+
+# ==== CAMPANHAS ====
 
 
 class CampaignCreate(BaseModel):
@@ -28,12 +31,11 @@ class CampaignOut(BaseModel):
     id: int
     company_name: str
     title: str
-    description: str | None
-    status: str
+    description: str | None = None
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    # Também vem direto do SQLAlchemy -> .from_orm()
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SummaryOut(BaseModel):
