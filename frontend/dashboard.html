@@ -117,7 +117,14 @@
       }
 
       // Carrega campanhas ao abrir
-      loadCampaigns();
+      loadCampaigns(async function showPublicLink(id) {
+  const res = await fetch(`${API_URL}/api/public/surveys/${id}/link`);
+  const data = await res.json();
+  document.getElementById("publicLink").innerHTML = `
+    <a href="${data.url}" target="_blank">${data.url}</a>
+  `;
+}
+);
     });
 
     // Botão de sair
@@ -356,3 +363,4 @@
   </script>
 </body>
 </html>
+
