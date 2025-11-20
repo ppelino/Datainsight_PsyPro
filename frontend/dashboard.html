@@ -1,7 +1,6 @@
 <script>
-  // 👇 QUANDO a API estiver no Render, você troca aqui:
-  // ex.: const API_URL = "https://datainsightpsypro-api.onrender.com";
-  const API_URL = "https://SEU-BACKEND-AQUI.com";
+  // URL da API em produção (Render)
+  const API_URL = "https://datainsight-psypro.onrender.com";
 
   // Recupera token salvo no login
   const token = localStorage.getItem('token');
@@ -11,7 +10,7 @@
     window.location.href = "index.html";
   }
 
-  // Mostra nome do usuário (se quiser, lá na navbar)
+  // Mostra nome do usuário (se quiser, lá na navbar) e carrega campanhas
   document.addEventListener("DOMContentLoaded", () => {
     const userName = localStorage.getItem('user_name') || "Usuário";
     const badge = document.getElementById("userBadge");
@@ -93,7 +92,7 @@
       // Atualiza gráfico Radar (Chart.js)
       renderRadarChart(labels, values);
 
-      // Atualiza lista de ações (se quiser, você monta aqui com base nas médias)
+      // Atualiza lista de ações
       renderActionPlan(labels, values);
     } catch (err) {
       console.error(err);
@@ -101,7 +100,7 @@
     }
   }
 
-  // Exemplo de função pra desenhar o gráfico
+  // Gráfico radar (Chart.js)
   let radarChart = null;
   function renderRadarChart(labels, values) {
     const ctx = document.getElementById('radar');
@@ -132,7 +131,7 @@
     });
   }
 
-  // Exemplo simples de plano de ação (você pode sofisticar depois)
+  // Plano de ação simples
   function renderActionPlan(labels, values) {
     const container = document.getElementById("actions");
     if (!container) return;
@@ -199,10 +198,11 @@
     }
   }
 
-  // Exportar PDF (basicamente imprimir a tela formatada)
+  // Exportar PDF (imprimir tela)
   function exportPdf() {
     window.print();
   }
 </script>
+
 
 
