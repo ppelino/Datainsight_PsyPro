@@ -50,7 +50,7 @@
     © 2025 DATASINSIGHT PSYPRO — Acesso Profissional
   </div>
 
-  <!-- JAVASCRIPT -->
+   <!-- JAVASCRIPT -->
   <script>
     // URL da API em produção (Render)
     const API_URL = "https://datainsight-psypro.onrender.com";
@@ -66,7 +66,7 @@
         return;
       }
 
-      // envia igual ao Swagger: application/x-www-form-urlencoded
+      // Envia igual ao Swagger: application/x-www-form-urlencoded
       const body = new URLSearchParams();
       body.append('username', username);
       body.append('password', password);
@@ -87,21 +87,20 @@
         }
 
         const data = await res.json();
-        // guarda token e nome
+
+        // guarda token e nome do usuário
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('user_name', data.user.name);
 
-        // vai para o dashboard
+        // redireciona para o dashboard
         window.location.href = "dashboard.html";
       } catch (err) {
         console.error(err);
-        alert("Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
+        alert("Erro de conexão com o servidor. Verifique a API_URL.");
       }
     });
   </script>
 
-</body>
-</html>
 
 
 
