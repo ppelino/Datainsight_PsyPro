@@ -1,191 +1,333 @@
-/* --------- Tema Geral --------- */
+/* ===========================
+   DATASINSIGHT PSYPRO - UI v2
+   Responsivo: mobile / tablet / desktop
+   ============================ */
 
+:root {
+  --bg-page: #eef3fb;
+  --bg-card: #ffffff;
+  --primary: #155e75;
+  --primary-dark: #0f4a5c;
+  --accent: #fbbf24;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-soft: #e2e8f0;
+  --radius-lg: 18px;
+  --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --shadow-light: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(180deg, #e8f1ff 0%, #f7fafc 80%);
-  color: #1e293b;
 }
 
-/* Container padrão */
-.container {
-  max-width: 1080px;
-  margin: 32px auto;
-  padding: 0 20px;
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #e0f2fe 0, var(--bg-page) 48%, #e5e7eb 100%);
+  color: var(--text-main);
 }
 
-/* --------- NAVBAR --------- */
+/* NAVBAR */
 
 .navbar {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  padding: 12px 0;
-  border-bottom: 1px solid #d0d7e4;
   position: sticky;
   top: 0;
   z-index: 20;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.35);
 }
 
 .navbar .wrap {
-  max-width: 1080px;
-  margin: auto;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  justify-content: space-between;
+  height: 64px;
 }
 
-.navbar .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.navbar .logo img {
-  height: 40px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-}
-
-.navbar .actions {
-  margin-left: auto;
+.logo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Botões Navbar */
-.btn {
-  padding: 6px 14px;
+.logo img {
+  height: 34px;
+  width: auto;
   border-radius: 999px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border: none;
-  transition: 0.2s ease;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
 }
 
-.btn.primary {
-  background: #2563eb;
-  color: white;
-}
-
-.btn.primary:hover {
-  background: #1d4ed8;
-}
-
-.btn.secondary {
-  background: #e6efff;
-  color: #1d4ed8;
-}
-
-.btn.secondary:hover {
-  background: #d3e3ff;
-}
-
-.btn.logout {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.btn.logout:hover {
-  background: #fecaca;
-}
-
-/* --------- CARDS --------- */
-
-.card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
-}
-
-/* Títulos */
-.card h2 {
-  margin-top: 0;
-  font-size: 1.25rem;
-  color: #0f172a;
-}
-
-.card-subtitle {
-  font-size: 0.9rem;
-  color: #6b7280;
-  margin-bottom: 10px;
-}
-
-/* -------- GRID -------- */
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.grid-1 {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-/* -------- RADAR CHART -------- */
-
-#radar {
-  max-width: 360px !important;
-  max-height: 360px !important;
-  margin: auto;
-}
-
-/* -------- PLANOS DE AÇÃO -------- */
-
-.action-card {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  padding: 14px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.action-card b {
-  color: #1e293b;
-}
-
-/* Chips */
-.chip {
-  padding: 2px 10px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+.logo span {
   font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: 0.92rem;
+  color: #e5f3ff;
+  text-transform: uppercase;
 }
 
-.chip-media {
-  background: #fef3c7;
-  color: #92400e;
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.chip-manter {
-  background: #dcfce7;
-  color: #166534;
+/* Layout geral */
+
+.container {
+  max-width: 1100px;
+  margin: 26px auto 40px;
+  padding: 0 16px 32px;
 }
 
-/* -------- FOOTER -------- */
-
-.footer {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #64748b;
-  margin-top: 40px;
-  padding-bottom: 20px;
-}
-
-/* -------- LOGIN -------- */
+/* LOGIN (index.html) */
 
 .login-box {
   max-width: 420px;
-  margin: 60px auto;
+  margin: 48px auto 0;
+  padding: 32px 28px 36px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.login-box img {
+  display: block;
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 0 auto 18px;
+  box-shadow: var(--shadow-light);
+}
+
+.login-box h2 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.card-subtitle {
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Form padrão (login + criar campanha) */
+
+.login-form label {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.login-form input,
+.login-form textarea,
+.login-form select {
+  width: 100%;
+  display: block;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: #f8fafc;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.login-form textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.login-form input:focus,
+.login-form textarea:focus,
+.login-form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
   background: #ffffff;
-  border-radius: 18px;
-  padding: 24px;
-  box-shadow: 0 12px 32px rgba
+}
+
+.login-form label + label {
+  margin-top: 10px;
+}
+
+/* BOTÕES */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 7px 18px;
+  font-weight: 500;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #f9fafb;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.35);
+}
+
+.btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.4);
+}
+
+.btn.small {
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  box-shadow: var(--shadow-light);
+  background: #0f172a;
+  color: #e5f3ff;
+}
+
+.btn.full {
+  width: 100%;
+  margin-top: 14px;
+}
+
+/* Badge */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5f3ff;
+}
+
+/* CARDS (dashboard) */
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.card h3 {
+  margin: 16px 0 10px;
+  font-size: 1rem;
+}
+
+/* Texto pequeno */
+
+.small {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* GRID do dashboard (2 colunas no desktop) */
+
+.grid-two {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
+  gap: 24px;
+}
+
+/* Select campanha + link público */
+
+#campaignSelect {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+#publicLink {
+  margin-top: 4px;
+  word-break: break-all;
+}
+
+/* Ações */
+
+.action-card {
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-light);
+}
+
+/* Rodapé */
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 16px 0 26px;
+}
+
+/* ======================
+   Responsividade
+   ====================== */
+
+@media (max-width: 900px) {
+  .navbar .wrap {
+    gap: 8px;
+  }
+
+  .grid-two {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 18px 16px 20px;
+  }
+
+  .container {
+    margin-top: 18px;
+  }
+
+  .login-box {
+    margin-top: 32px;
+    padding: 26px 20px 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .navbar-right {
+    margin-top: 6px;
+  }
+
+  .login-box img {
+    margin-bottom: 14px;
+  }
+
+  .card h2 {
+    font-size: 1.1rem;
+  }
+}
