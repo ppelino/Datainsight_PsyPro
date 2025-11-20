@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import Dict
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
+from typing import List, Optional   # <-- ADICIONA List aqui
+
 
 
 # ==== USER ====
@@ -42,9 +44,12 @@ class SummaryOut(BaseModel):
     campaign: CampaignOut
     averages: Dict[str, float]
 
+
+# ...
+
 class AnswerIn(BaseModel):
-    dimension: str
-    score: int
+    dimension: str   # nome da dimensão (ex.: "Demandas", "Controle"...)
+    score: int       # valor 1 a 5
 
 
 class PublicSurveyIn(BaseModel):
