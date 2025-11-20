@@ -41,3 +41,12 @@ class CampaignOut(BaseModel):
 class SummaryOut(BaseModel):
     campaign: CampaignOut
     averages: Dict[str, float]
+
+class AnswerIn(BaseModel):
+    dimension: str
+    score: int
+
+
+class PublicSurveyIn(BaseModel):
+    campaign_id: int
+    answers: List[AnswerIn]
