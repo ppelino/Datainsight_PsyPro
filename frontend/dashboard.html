@@ -50,15 +50,13 @@
 
       <h3 style="margin-top:20px;">Gráfico Radar (Médias por dimensão)</h3>
       <canvas id="radar" width="400" height="400"></canvas>
-      <h3 style="margin-top:20px;">Gráfico Radar (Médias por dimensão)</h3>
-<canvas id="radar" width="400" height="400"></canvas>
 
-<div style="margin-top:12px;">
-  <button type="button" class="btn small" onclick="exportPdf()">
-    Exportar PDF
-  </button>
-</div>
-
+      <!-- 🔹 Botão para exportar PDF -->
+      <div style="margin-top:12px;">
+        <button type="button" class="btn small" onclick="exportPdf()">
+          Exportar PDF
+        </button>
+      </div>
     </div>
 
     <!-- CARD DIREITA: Plano de ação + criação de campanha -->
@@ -398,9 +396,16 @@
         alert("Erro de conexão ao criar campanha.");
       }
     }
+
+    // 7) Exportar PDF = usar a impressão do navegador
+    function exportPdf() {
+      window.print();
+    }
   </script>
 </body>
 </html>
+
+
 
 
 
