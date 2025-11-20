@@ -29,68 +29,74 @@
   </div>
 
   <!-- CONTEÚDO PRINCIPAL -->
-  <div class="container" style="margin-top:24px;">
+  <div class="container">
 
-    <!-- CARD ESQUERDA: Campanhas + Radar -->
-    <div class="card" style="margin-bottom:24px;">
-      <h2>Painel de Campanhas</h2>
-      <p class="card-subtitle">
-        Selecione uma campanha para visualizar o resumo das dimensões psicossociais.
-      </p>
+    <!-- GRID 2 COLUNAS NO DESKTOP / 1 NO MOBILE -->
+    <div class="grid-two">
 
-      <div id="status" class="small" style="margin-bottom:10px;"></div>
+      <!-- CARD ESQUERDA: Campanhas + Radar -->
+      <div class="card">
+        <h2>Painel de Campanhas</h2>
+        <p class="card-subtitle">
+          Selecione uma campanha para visualizar o resumo das dimensões psicossociais.
+        </p>
 
-      <label for="campaignSelect">Campanha:</label>
-      <select id="campaignSelect" onchange="onCampaignChange()">
-        <option value="">Carregando campanhas...</option>
-      </select>
+        <div id="status" class="small" style="margin-bottom:10px;"></div>
 
-      <!-- 🔹 Aqui aparece o link público da campanha -->
-      <div id="publicLink" class="small" style="margin-top:8px;"></div>
+        <label for="campaignSelect">Campanha:</label>
+        <select id="campaignSelect" onchange="onCampaignChange()">
+          <option value="">Carregando campanhas...</option>
+        </select>
 
-      <h3 style="margin-top:20px;">Gráfico Radar (Médias por dimensão)</h3>
-      <canvas id="radar" width="400" height="400"></canvas>
+        <!-- Link público da campanha -->
+        <div id="publicLink" class="small" style="margin-top:8px;"></div>
 
-      <!-- 🔹 Botão para exportar PDF -->
-      <div style="margin-top:12px;">
-        <button type="button" class="btn small" onclick="exportPdf()">
-          Exportar PDF
-        </button>
+        <h3 style="margin-top:20px;">Gráfico Radar (Médias por dimensão)</h3>
+        <canvas id="radar" width="400" height="400"></canvas>
+
+        <!-- Botão para exportar PDF -->
+        <div style="margin-top:12px;">
+          <button type="button" class="btn small" onclick="exportPdf()">
+            Exportar PDF
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- CARD DIREITA: Plano de ação + criação de campanha -->
-    <div class="card">
-      <h2>Plano de Ação & Gestão</h2>
-      <p class="card-subtitle">
-        As dimensões com menor média aparecem com maior prioridade de intervenção.
-      </p>
+      <!-- CARD DIREITA: Plano de ação + criação de campanha -->
+      <div class="card">
+        <h2>Plano de Ação & Gestão</h2>
+        <p class="card-subtitle">
+          As dimensões com menor média aparecem com maior prioridade de intervenção.
+        </p>
 
-      <div id="actions" style="margin-bottom:20px;"></div>
+        <div id="actions" style="margin-bottom:20px;"></div>
 
-      <hr>
+        <hr>
 
-      <h3>Criar nova campanha</h3>
-      <form id="campaignForm" class="login-form" style="max-width:500px;">
-        <label>
-          Empresa / Cliente
-          <input id="companyName" type="text" placeholder="Ex.: Escola Estadual X, Empresa Y" required>
-        </label>
+        <h3>Criar nova campanha</h3>
+        <form id="campaignForm" class="login-form" style="max-width:500px;">
+          <label>
+            Empresa / Cliente
+            <input id="companyName" type="text" placeholder="Ex.: Escola Estadual X, Empresa Y" required>
+          </label>
 
-        <label>
-          Título da campanha
-          <input id="campaignTitle" type="text" placeholder="Ex.: Avaliação NR01 - 1º semestre" required>
-        </label>
+          <label>
+            Título da campanha
+            <input id="campaignTitle" type="text" placeholder="Ex.: Avaliação NR01 - 1º semestre" required>
+          </label>
 
-        <label>
-          Descrição (opcional)
-          <textarea id="campaignDescription" rows="3" placeholder="Breve descrição da campanha"></textarea>
-        </label>
+          <label>
+            Descrição (opcional)
+            <textarea id="campaignDescription" rows="3" placeholder="Breve descrição da campanha"></textarea>
+          </label>
 
-        <button type="submit" class="btn primary">Criar campanha</button>
-      </form>
-    </div>
-  </div>
+          <button type="submit" class="btn primary">Criar campanha</button>
+        </form>
+      </div>
+
+    </div> <!-- fim grid-two -->
+
+  </div> <!-- fim container -->
 
   <div class="footer">
     © 2025 DATASINSIGHT PSYPRO — Acesso Profissional
@@ -137,13 +143,13 @@
       window.location.href = "index.html";
     }
 
-    // Mostra mensagenzinha de status
+    // Mensagem de status
     function setStatus(msg) {
       const el = document.getElementById("status");
       if (el) el.textContent = msg;
     }
 
-    // 🔹 Mostra o link público da campanha selecionada
+    // Link público da campanha
     async function showPublicLink(campaignId) {
       const el = document.getElementById("publicLink");
       if (!el) return;
@@ -198,7 +204,6 @@
           document.getElementById("actions").innerHTML =
             "<p class='small'>Cadastre uma campanha no formulário abaixo para começar.</p>";
 
-          // limpa radar e link público
           renderRadarChart([], []);
           showPublicLink(null);
           return;
@@ -294,7 +299,6 @@
       }
 
       if (labels.length === 0) {
-        // Se não há dados, apenas limpa (não recria gráfico vazio)
         return;
       }
 
@@ -387,9 +391,7 @@
         }
 
         alert("Campanha criada com sucesso!");
-        // Limpa o formulário
         document.getElementById("campaignForm").reset();
-        // Recarrega lista de campanhas
         loadCampaigns();
       } catch (err) {
         console.error(err);
@@ -397,13 +399,15 @@
       }
     }
 
-    // 7) Exportar PDF = usar a impressão do navegador
+    // 7) Exportar PDF = usar impressão do navegador
     function exportPdf() {
       window.print();
     }
   </script>
 </body>
 </html>
+
+
 
 
 
