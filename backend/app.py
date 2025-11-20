@@ -181,4 +181,32 @@ def campaign_summary(
         averages=averages,
     )
 
+# ==== SURVEY PÚBLICO (SEM LOGIN) ===========================================
+
+@app.post("/api/public/surveys/submit")
+def submit_survey(payload: schemas.PublicSurveyIn, db: Session = Depends(get_db)):
+    # Confere se a campanha existe
+    camp = db.query(models.Campaign).filter(models.Campaign.id == payload.campaign_id).first()
+    if not camp:
+        raise HTTPException(status_code=404, detail="Campanha não encontrada")
+
+    for ans in payload.answers:
+        # Procura dimensão pelo nome (cria se não existir)
+        dim = db.query(models.Dimension).filter(models.Dimension.name == ans.dimension).first()
+        if not dim:
+            dim = models.Dimension(name=ans.dimension, description=None)
+            db.add(dim)
+            db.flush()  # garante que dim.id exista
+
+        resp = models.Response(
+            campaign_id=camp.id,
+            dimension_id=dim.id,
+            score=ans.score
+        )
+        db.add(resp)
+
+    db.commit()
+    return {"ok": True}
+
+
 
