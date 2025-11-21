@@ -8,7 +8,7 @@
   <!-- Mesmo CSS do login -->
   <link rel="stylesheet" href="assets/branding-V2.css">
 
-  <!-- Chart.js para o gráfico radar -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -69,6 +69,13 @@
           As dimensões com menor média aparecem com maior prioridade de intervenção.
         </p>
 
+        <!-- NOVO GRÁFICO HORIZONTAL DE PRIORIDADES -->
+        <h3>Prioridades por dimensão</h3>
+        <div class="action-chart-box">
+          <canvas id="actionChart"></canvas>
+        </div>
+
+        <h3>Plano de ação sugerido</h3>
         <div id="actions" style="margin-bottom:20px;"></div>
 
         <hr>
@@ -115,8 +122,9 @@
       window.location.href = "index.html";
     }
 
-    // Gráfico radar (instância global)
+    // Gráficos (instâncias globais)
     let radarChart = null;
+    let actionChart = null;
 
     // Ao carregar a página
     document.addEventListener("DOMContentLoaded", () => {
@@ -205,6 +213,7 @@
             "<p class='small'>Cadastre uma campanha no formulário abaixo para começar.</p>";
 
           renderRadarChart([], []);
+          renderActionPlanChart([], []);
           showPublicLink(null);
           return;
         }
@@ -256,6 +265,7 @@
             actionsDiv.innerHTML = "<p class='small'>Erro ao carregar resumo da campanha.</p>";
           }
           renderRadarChart([], []);
+          renderActionPlanChart([], []);
           return;
         }
 
@@ -271,13 +281,15 @@
               "<p class='small'>Ainda não há respostas para esta campanha.</p>";
           }
           renderRadarChart([], []);
+          renderActionPlanChart([], []);
           return;
         }
 
-        // Atualiza gráfico radar
+        // Atualiza gráficos
         renderRadarChart(labels, values);
+        renderActionPlanChart(labels, values);
 
-        // Atualiza plano de ação
+        // Atualiza plano de ação textual
         renderActionPlan(labels, values);
       } catch (err) {
         console.error(err);
@@ -286,6 +298,7 @@
             "<p class='small'>Erro de conexão ao buscar resumo.</p>";
         }
         renderRadarChart([], []);
+        renderActionPlanChart([], []);
       }
     }
 
@@ -313,6 +326,7 @@
           }]
         },
         options: {
+          responsive: true,
           scales: {
             r: {
               suggestedMin: 1,
@@ -323,7 +337,47 @@
       });
     }
 
-    // 5) Plano de ação com base nas médias
+    // 4b) Gráfico horizontal de prioridades (bar y)
+    function renderActionPlanChart(labels, values) {
+      const ctx = document.getElementById('actionChart');
+      if (!ctx) return;
+
+      if (actionChart) {
+        actionChart.destroy();
+      }
+
+      if (!labels.length) return;
+
+      // Ordena por menor média (maior prioridade primeiro)
+      const combined = labels.map((dim, i) => ({
+        label: dim,
+        value: values[i]
+      })).sort((a, b) => a.value - b.value);
+
+      actionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: combined.map(x => x.label),
+          datasets: [{
+            label: 'Média (1-5)',
+            data: combined.map(x => x.value)
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: {
+              suggestedMin: 1,
+              suggestedMax: 5
+            }
+          }
+        }
+      });
+    }
+
+    // 5) Plano de ação com base nas médias (texto)
     function renderActionPlan(labels, values) {
       const container = document.getElementById("actions");
       if (!container) return;
