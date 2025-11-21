@@ -274,6 +274,22 @@ body {
   box-shadow: var(--shadow-light);
 }
 
+/* === Gráficos === */
+
+#radar {
+  max-width: 100%;
+}
+
+.action-chart-box {
+  margin-top: 10px;
+  height: 260px;
+}
+
+.action-chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* Rodapé */
 
 .footer {
@@ -330,4 +346,18 @@ body {
   .card h2 {
     font-size: 1.1rem;
   }
+
+  /* Ajustes específicos pro dashboard no celular */
+  .grid-two {
+    gap: 16px;
+  }
+
+  .action-chart-box {
+    height: 220px;
+  }
+
+  #radar {
+    max-width: 100%;
+  }
 }
+
