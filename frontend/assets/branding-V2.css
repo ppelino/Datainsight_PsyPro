@@ -1,23 +1,38 @@
 /* ===========================
-   DATASINSIGHT PSYPRO - UI v2
-   Responsivo: mobile / tablet / desktop
-   ============================ */
+   DATASINSIGHT PSYPRO - UI v3
+   Psicossocial Premium
+   Responsivo Total
+   Mobile / Tablet / Notebook / PC
+   =========================== */
 
 :root {
-  --bg-page: #eef3fb;
-  --bg-card: #ffffff;
-  --primary: #155e75;
-  --primary-dark: #0f4a5c;
-  --accent: #fbbf24;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-soft: #e2e8f0;
-  --radius-lg: 18px;
-  --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
-  --shadow-light: 0 4px 12px rgba(15, 23, 42, 0.06);
+
+  /* IDENTIDADE VISUAL */
+  --bg-page: #f4f7fc;
+  --bg-card: rgba(255,255,255,0.92);
+
+  --primary: #4f46e5;
+  --primary-dark: #312e81;
+
+  --accent: #8b5cf6;
+
+  --text-main: #172033;
+  --text-muted: #667085;
+
+  --border-soft: #dbe4f0;
+
+  --radius-lg: 22px;
+
+  --shadow-soft:
+    0 14px 34px rgba(79, 70, 229, 0.10);
+
+  --shadow-light:
+    0 6px 18px rgba(79, 70, 229, 0.08);
 }
 
-/* Base */
+/* ======================
+   RESET
+   ====================== */
 
 *,
 *::before,
@@ -31,366 +46,540 @@ body {
   padding: 0;
 }
 
+/* ======================
+   BODY
+   ====================== */
+
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #e0f2fe 0, var(--bg-page) 48%, #e5e7eb 100%);
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(circle at top left,
+      #dbeafe 0%,
+      transparent 30%),
+
+    radial-gradient(circle at top right,
+      #ede9fe 0%,
+      transparent 28%),
+
+    linear-gradient(
+      180deg,
+      #f4f7fb 0%,
+      #eef2ff 100%
+    );
+
   color: var(--text-main);
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
 }
 
-/* NAVBAR */
+/* ======================
+   NAVBAR
+   ====================== */
 
 .navbar {
+
   position: sticky;
   top: 0;
-  z-index: 20;
-  background: rgba(15, 23, 42, 0.96);
+  z-index: 999;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111827,
+      #312e81
+    );
+
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.35);
+
+  box-shadow:
+    0 10px 30px rgba(49, 46, 129, 0.30);
 }
 
 .navbar .wrap {
-  max-width: 1100px;
+
+  max-width: 1200px;
+
   margin: 0 auto;
-  padding: 0 16px;
+
+  padding: 0 20px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
-  height: 64px;
+
+  min-height: 74px;
 }
 
+/* ======================
+   LOGO
+   ====================== */
+
 .logo {
+
   display: flex;
+
   align-items: center;
-  gap: 10px;
+
+  gap: 12px;
 }
 
 .logo img {
-  height: 34px;
-  width: auto;
+
+  width: 42px;
+
+  height: 42px;
+
   border-radius: 999px;
-  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.6);
+
+  object-fit: cover;
+
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,0.08);
 }
 
 .logo span {
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  font-size: 0.92rem;
-  color: #e5f3ff;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+
   text-transform: uppercase;
+
+  color: #f1f5f9;
 }
+
+/* ======================
+   NAV RIGHT
+   ====================== */
 
 .navbar-right {
+
   display: flex;
+
   align-items: center;
-  gap: 10px;
+
+  gap: 12px;
 }
 
-/* Layout geral */
+/* ======================
+   CONTAINER
+   ====================== */
 
 .container {
-  max-width: 1100px;
-  margin: 26px auto 40px;
-  padding: 0 16px 32px;
+
+  max-width: 1200px;
+
+  margin: 28px auto 50px;
+
+  padding: 0 20px;
 }
 
-/* LOGIN (index.html) */
+/* ======================
+   LOGIN
+   ====================== */
 
 .login-box {
-  max-width: 420px;
-  margin: 48px auto 0;
-  padding: 32px 28px 36px;
+
+  max-width: 430px;
+
+  margin: 42px auto;
+
+  padding: 30px;
+
   border-radius: var(--radius-lg);
-  background: var(--bg-card);
+
+  background: rgba(255,255,255,0.94);
+
+  backdrop-filter: blur(8px);
+
+  border:
+    1px solid rgba(139, 92, 246, 0.12);
+
   box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .login-box img {
-  display: block;
-  max-width: 100%;
-  border-radius: 16px;
-  margin: 0 auto 18px;
+
+  width: 100%;
+
+  border-radius: 18px;
+
+  margin-bottom: 22px;
+
   box-shadow: var(--shadow-light);
 }
 
 .login-box h2 {
-  margin: 0 0 8px;
-  font-size: 1.4rem;
+
+  margin: 0 0 10px;
+
   text-align: center;
+
+  font-size: 32px;
+
+  color: var(--text-main);
 }
 
 .card-subtitle {
-  margin: 0 0 18px;
-  font-size: 0.9rem;
+
+  text-align: center;
+
   color: var(--text-muted);
+
+  margin-bottom: 24px;
+
+  font-size: 15px;
 }
 
-/* Form padrão (login + criar campanha) */
+/* ======================
+   FORMULÁRIOS
+   ====================== */
 
 .login-form label {
+
   display: block;
-  font-size: 0.86rem;
-  color: var(--text-main);
+
   margin-bottom: 6px;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  color: var(--text-main);
 }
 
 .login-form input,
 .login-form textarea,
 .login-form select {
+
   width: 100%;
-  display: block;
-  font-size: 0.9rem;
-  padding: 8px 10px;
-  border-radius: 10px;
+
+  padding: 12px 14px;
+
+  border-radius: 14px;
+
   border: 1px solid var(--border-soft);
+
   background: #f8fafc;
+
+  font-size: 15px;
+
   color: var(--text-main);
-  outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  transition: 0.2s;
 }
 
 .login-form textarea {
+
   resize: vertical;
-  min-height: 70px;
+
+  min-height: 90px;
 }
 
 .login-form input:focus,
 .login-form textarea:focus,
 .login-form select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+
+  outline: none;
+
+  border-color: var(--accent);
+
   background: #ffffff;
+
+  box-shadow:
+    0 0 0 4px rgba(139, 92, 246, 0.10);
 }
 
 .login-form label + label {
-  margin-top: 10px;
-}
-
-/* BOTÕES */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  padding: 7px 18px;
-  font-weight: 500;
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
-}
-
-.btn.primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #f9fafb;
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.35);
-}
-
-.btn.primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.4);
-}
-
-.btn.small {
-  font-size: 0.82rem;
-  padding: 6px 14px;
-  box-shadow: var(--shadow-light);
-  background: #0f172a;
-  color: #e5f3ff;
-}
-
-.btn.full {
-  width: 100%;
   margin-top: 14px;
 }
 
-/* Badge */
+/* ======================
+   BOTÕES
+   ====================== */
 
-.badge {
+.btn {
+
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
-  padding: 4px 8px;
-  font-size: 0.78rem;
+
+  border: none;
+
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.9);
-  color: #e5f3ff;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  padding: 10px 22px;
+
+  transition: 0.2s;
 }
 
-/* CARDS (dashboard) */
+.btn:hover {
+
+  transform: translateY(-2px);
+}
+
+.btn.primary {
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #8b5cf6
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 12px 28px rgba(79, 70, 229, 0.28);
+}
+
+.btn.small {
+
+  padding: 8px 16px;
+
+  font-size: 13px;
+
+  background: #111827;
+
+  color: #ffffff;
+}
+
+.btn.full {
+
+  width: 100%;
+
+  margin-top: 18px;
+}
+
+/* ======================
+   BADGE
+   ====================== */
+
+.badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(79, 70, 229, 0.12);
+
+  color: var(--primary);
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+/* ======================
+   CARDS
+   ====================== */
 
 .card {
-  background: var(--bg-card);
+
+  background: rgba(255,255,255,0.92);
+
+  backdrop-filter: blur(8px);
+
   border-radius: var(--radius-lg);
-  padding: 22px 20px 24px;
+
+  padding: 24px;
+
   margin-bottom: 24px;
+
   box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(148, 163, 184, 0.16);
+
+  border:
+    1px solid rgba(139, 92, 246, 0.12);
 }
 
 .card h2 {
-  margin: 0 0 6px;
-  font-size: 1.25rem;
+
+  margin: 0 0 8px;
+
+  font-size: 28px;
 }
 
 .card h3 {
-  margin: 16px 0 10px;
-  font-size: 1rem;
+
+  margin: 18px 0 12px;
+
+  font-size: 18px;
 }
 
-/* Texto pequeno */
+/* ======================
+   TEXTO PEQUENO
+   ====================== */
 
 .small {
-  font-size: 0.85rem;
+
+  font-size: 14px;
+
   color: var(--text-muted);
 }
 
-/* GRID do dashboard (2 colunas no desktop) */
+/* ======================
+   GRID DASHBOARD
+   ====================== */
 
 .grid-two {
+
   display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
+
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(0, 1.3fr);
+
   gap: 24px;
 }
 
-/* Select campanha + link público */
+/* ======================
+   CAMPANHAS
+   ====================== */
 
 #campaignSelect {
+
   width: 100%;
-  margin-top: 4px;
-  margin-bottom: 4px;
+
+  margin-top: 6px;
+
+  margin-bottom: 8px;
 }
 
 #publicLink {
-  margin-top: 4px;
-  word-break: break-all;
+
+  margin-top: 8px;
+
+  word-break: break-word;
 }
 
-/* Ações */
+/* ======================
+   AÇÕES
+   ====================== */
 
 .action-card {
-  margin-bottom: 10px;
+
+  margin-bottom: 12px;
+
   box-shadow: var(--shadow-light);
 }
 
-/* === Gráficos === */
+/* ======================
+   GRÁFICOS
+   ====================== */
 
 #radar {
+
   max-width: 100%;
 }
 
 .action-chart-box {
-  margin-top: 10px;
-  height: 260px;
+
+  margin-top: 14px;
+
+  height: 280px;
 }
 
 .action-chart-box canvas {
+
   width: 100% !important;
+
   height: 100% !important;
 }
 
-/* Rodapé */
+/* ======================
+   FOOTER
+   ====================== */
 
 .footer {
+
   text-align: center;
-  font-size: 0.8rem;
+
+  font-size: 13px;
+
   color: var(--text-muted);
-  padding: 16px 0 26px;
+
+  padding: 20px 0 30px;
 }
 
 /* ======================
-   Responsividade
+   RESPONSIVO TABLET
    ====================== */
 
 @media (max-width: 900px) {
-  .navbar .wrap {
-    gap: 8px;
-  }
-
-  .grid-two {
-    grid-template-columns: 1fr;
-  }
-
-  .card {
-    padding: 18px 16px 20px;
-  }
 
   .container {
-    margin-top: 18px;
-  }
 
-  .login-box {
-    margin-top: 32px;
-    padding: 26px 20px 30px;
-  }
-}
-
-@media (max-width: 600px) {
-  .navbar .wrap {
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  .navbar-right {
-    margin-top: 6px;
-  }
-
-  .login-box img {
-    margin-bottom: 14px;
-  }
-
-  .card h2 {
-    font-size: 1.1rem;
-  }
-
-  /* Ajustes específicos pro dashboard no celular */
-  .grid-two {
-    gap: 16px;
-  }
-
-  .action-chart-box {
-    height: 220px;
-  }
-
-  #radar {
-    max-width: 100%;
-  }
-}
-/* RESPONSIVO RÁPIDO — PSYPRO */
-
-@media (max-width: 900px) {
-  .container {
     width: 100%;
+
     padding: 16px;
   }
 
   .grid-two {
-    grid-template-columns: 1fr !important;
+
+    grid-template-columns: 1fr;
+
     gap: 18px;
   }
 
   .card {
+
     width: 100%;
-    padding: 18px;
+
+    padding: 20px;
   }
 
   canvas {
+
     max-width: 100%;
   }
 
   .navbar .wrap {
+
     flex-direction: column;
+
     gap: 10px;
+
     align-items: center;
+
     text-align: center;
+
+    padding-top: 12px;
+
+    padding-bottom: 12px;
   }
 
   .navbar-right {
+
     justify-content: center;
+
     flex-wrap: wrap;
   }
 
@@ -398,52 +587,87 @@ body {
   input,
   textarea,
   button {
+
     width: 100%;
+
     max-width: 100%;
   }
 
   .btn.small {
+
     width: auto;
+
     min-width: 120px;
+  }
+
+  .login-box {
+
+    margin-top: 30px;
   }
 }
 
+/* ======================
+   RESPONSIVO CELULAR
+   ====================== */
+
 @media (max-width: 480px) {
+
   body {
+
     overflow-x: hidden;
   }
 
   .container {
+
     padding: 12px;
   }
 
   .card {
-    padding: 16px;
+
+    padding: 18px;
+
     border-radius: 18px;
   }
 
-  h2 {
-    font-size: 20px;
+  .card h2 {
+
+    font-size: 22px;
   }
 
-  h3 {
-    font-size: 16px;
+  .card h3 {
+
+    font-size: 17px;
   }
 
   .logo span {
-    font-size: 14px;
+
+    font-size: 13px;
   }
 
   .logo img {
+
     width: 38px;
+
     height: 38px;
   }
 
   .action-chart-box {
+
     height: 260px;
   }
 
   #radar {
+
     height: 300px !important;
+  }
+
+  .login-box {
+
+    padding: 22px 18px;
+  }
+
+  .login-box h2 {
+
+    font-size: 26px;
   }
 }
