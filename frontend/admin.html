@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Datainsight PsyPRO — Administração</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/branding-V2.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="wrap">
+      <div class="logo">
+        <img src="assets/datainsight.png" alt="Datainsight">
+        <span>DATASINSIGHT PSYPRO</span>
+      </div>
+      <div class="navbar-right">
+        <button onclick="window.location.href='dashboard.html'" class="btn small">Dashboard</button>
+        <button onclick="logout()" class="btn small">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>Área Administrativa</h2>
+      <p class="card-subtitle">Painel inicial de gestão do Datainsight PsyPRO.</p>
+
+      <h3>Status do sistema</h3>
+      <p>✅ Login funcionando</p>
+      <p>✅ Campanhas funcionando</p>
+      <p>✅ Questionário público funcionando</p>
+      <p>✅ Dashboard com gráficos funcionando</p>
+
+      <hr>
+
+      <h3>Próximas funções administrativas</h3>
+      <p>• Cadastro de clientes</p>
+      <p>• Cadastro de usuários</p>
+      <p>• Controle de planos</p>
+      <p>• Relatórios gerenciais</p>
+      <p>• Exportação profissional em PDF</p>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = "index.html";
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user_name');
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
